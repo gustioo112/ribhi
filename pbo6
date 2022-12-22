@@ -1,0 +1,19 @@
+import requests
+from bs4 import BeautifulSoup
+from tabulate import tabulate
+
+resp = requests.get('https://scrape.jeyy.xyz/')
+soup = BeautifulSoup(resp.content, 'html.parser')
+
+
+content = soup.find('ul', {'class': 'daftar-lab'})
+data = []
+
+i = 0
+for x in content.find_all('li'):
+    data.append([])
+    teks = x.get_text().replace('\n','')
+    data[i].append(teks)
+    i += 1
+
+print(tabulate(data, headers='firstrow'))
